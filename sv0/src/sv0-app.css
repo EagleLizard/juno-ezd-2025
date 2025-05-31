@@ -1,0 +1,17 @@
+
+.sv0-main {
+  width: 100%;
+
+  .test-list-buttons {
+    
+  }
+  .test-list-items {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 100%;
+    .test-list-item {
+      border: 1px dashed;
+      padding: 4px 8px;
+    }
+  }
+}
