@@ -1,0 +1,14 @@
+
+.re0-app {
+  width: 100%;
+
+  .test-list-items {
+    display: flex;
+    flex-wrap: wrap;
+    .test-list-item {
+      border: 1px dotted;
+      padding: 4px 8px;
+      margin: 2px;
+    }
+  }
+}

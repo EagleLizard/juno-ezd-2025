@@ -1,0 +1,25 @@
+
+:root {
+  --text-color: #fff;
+  --text-color-lt: #000;
+}
+
+/* global styles */
+body {
+  margin: 0 auto;
+  background-color: #323232;
+  color: var(--text-color);
+
+  /*
+    Light theme
+  */
+  @media (prefers-color-scheme: light) {
+    color: var(--text-color-lt);
+    background-color: unset;
+  }
+}
+
+#re0 {
+  /* margin: 0 auto; */
+  padding: 2rem;
+}

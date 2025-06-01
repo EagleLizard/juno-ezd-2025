@@ -2,46 +2,45 @@ import globals from 'globals';
 import pluginJs from '@eslint/js';
 import tsEslint from 'typescript-eslint';
 import stylistic from '@stylistic/eslint-plugin';
-import svelteEslint from 'eslint-plugin-svelte';
-import svelteConfig from './svelte.config.js';
+import reactEslint from 'eslint-plugin-react';
 
 /** @type {import('eslint').Linter.Config[]} */
 const config = [
   pluginJs.configs.recommended,
   tsEslint.configs.recommended,
-  svelteEslint.configs.recommended,
+  reactEslint.configs.flat.recommended,
+  /* see: https://stackoverflow.com/a/77679839/4677252 */
+  reactEslint.configs.flat['jsx-runtime'],
   {
-    files: [
-      '**/*.js',
-      '**/*.svelte',
-      '**/*.svelte.ts',
-      '**/*.svelte.js',
-    ],
-    languageOptions: {
-      sourceType: 'commonjs',
-      /*
-        Following eslint-plugin-svelte README,
-          see: https://github.com/sveltejs/eslint-plugin-svelte/blob/a0f5c172131200be0b9689d0001a73e88ef822eb/README.md?plain=1#L131
-      _*/
-      parserOptions: {
-        projectService: true,
-        extraFileExtensions: [ '.svelte' ],
-        parser: tsEslint.parser,
-        svelteConfig,
-      },
-    },
+    ignores: [ 'dist' ],
   },
   {
+    files: [
+      '**/*.{js,jsx}',
+      '**/*.{ts,tsx}',
+    ],
     languageOptions: {
+      // sourceType: 'commonjs',
+      /*
+        Following eslint-plugin-react README,
+          see: https://github.com/jsx-eslint/eslint-plugin-react/blob/dd2e9681bca4c20fa184c5bbaca3090ec51d8d7a/README.md#plugin
+      _*/
+      parserOptions: {
+        ecmaVersion: 2020,
+        ecmaFeatures: {
+          jsx: true,
+        },
+      },
       globals: {
         ...globals.browser,
-        ...globals.node,
+        // ...globals.node,
       },
     },
   },
   {
     plugins: {
       '@stylistic': stylistic,
+      'react': reactEslint,
     },
     rules: {
       indent: [
@@ -62,8 +61,6 @@ const config = [
       '@stylistic/eol-last': [ 'error', 'always' ],
       /* TS */
       'prefer-const': [ 'off' ],
-      /* React */
-      'react/react-in-jsx-scope': [ 'off' ],
     },
   },
 ];
