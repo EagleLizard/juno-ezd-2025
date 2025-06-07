@@ -1,11 +1,17 @@
 <script lang="ts">
   import { onMount } from 'svelte';
+  import Nav from './nav/nav.svelte';
+  import { Router } from './lib/router';
 
   type TestListItem = {
     id: string;
     label: string;
   };
 
+  const router = $state(Router.init({
+    _history: window.history,
+    _location: window.location,
+  }));
   let testListItems: TestListItem[] = $state([]);
   let idCounter = $state(0);
   let listItemIncBy = $state(1);
@@ -16,7 +22,6 @@
     for(let i = 0; i < 40; ++i) {
       pushListItem();
     }
-    // console.log(testListItems);
   }
 
   function handleAddListItem($e: MouseEvent) {
@@ -39,6 +44,7 @@
 
 <main class="sv0-main">
   <h1>sv0</h1>
+  <Nav router={router}/>
   <div>
     <hr/>
     <div class="test-list-buttons">

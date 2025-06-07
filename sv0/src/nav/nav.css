@@ -1,0 +1,26 @@
+
+.nav {
+  .nav-items {
+    display: flex;
+    .nav-item-link {
+      .nav-item {
+        padding: 0.5rem 1rem;
+        color: var(--text-color);
+        &:hover {
+          background-color: rgba(255, 255, 255, 0.1);
+          border-radius: 3%;
+        }
+      }
+      .highlight-bar {
+        position: relative;
+        min-height: 1px;
+        background-color: var(--highlight-color-1);
+      }
+      &:not(.selected) {
+        .highlight-bar {
+          display: none;
+        }
+      }
+    }
+  }
+}
