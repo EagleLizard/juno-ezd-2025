@@ -4,5 +4,5 @@ export const routeUtil = {
 } as const;
 
 function getPathParts(pathname: string) {
-  return pathname.replace(/(^\/|\\&)/, '').split('/');
+  return pathname.replace(/(^\/+|\/+$)/g, '').split('/');
 }
