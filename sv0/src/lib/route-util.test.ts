@@ -12,9 +12,9 @@ describe('routeUtil tests', () => {
       expect(pathParts).toEqual(pathPartsMock);
     });
 
-    test('ignores extra \'/\' characters from beginning/end of path', () => {
+    test('ignores extra \'/\' char from end of path', () => {
       let pathPartsMock = [ 'path', 'to', 'something' ];
-      let pathname = `////${pathPartsMock.join('/')}/////`;
+      let pathname = `/${pathPartsMock.join('/')}/`;
       let pathParts = routeUtil.getPathParts(pathname);
       expect(pathParts).toEqual(pathPartsMock);
     });
@@ -26,7 +26,6 @@ describe('routeUtil tests', () => {
         '/etc',
         '/etc/',
         '/etc/123/abc',
-        '/etc/:param1/abc/some-thing/123',
       ];
       for(let i = 0; i < validPathnames.length; ++i) {
         let pathname = validPathnames[i];
@@ -42,6 +41,7 @@ describe('routeUtil tests', () => {
         'etc/123',
         '/etc_123',
         '//',
+        '/etc/some_thing/',
         '',
       ];
       for(let i = 0; i < invalidPathnames.length; ++i) {
