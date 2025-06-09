@@ -39,6 +39,7 @@ describe('routeUtil tests', () => {
       const invalidPathnames: string[] = [
         'etc',
         'etc/123',
+        '/path/to//etc',
         '/etc_123',
         '//',
         '/etc/some_thing/',

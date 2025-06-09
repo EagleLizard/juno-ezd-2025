@@ -1,5 +1,5 @@
 
-import { EventRegistry } from './event-registry';
+import { EventRegistry } from '../event-registry';
 
 type RouterCtorParams = {
   _history: History,
