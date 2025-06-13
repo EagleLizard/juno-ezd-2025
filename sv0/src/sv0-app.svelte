@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import Nav from './nav/nav.svelte';
-  import { Router } from './lib/router';
+  import { Router } from './lib/router/router';
 
   type TestListItem = {
     id: string;

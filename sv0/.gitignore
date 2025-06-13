@@ -22,3 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# lines before this was programmatically generated
+
+/coverage
+/test-reports

@@ -58,18 +58,29 @@ const config = [
       'no-octal': [ 'off' ],
       'no-multiple-empty-lines': [ 'error', { 'max': 1, 'maxBOF': 1 }],
       // 'no-unused-vars': [ 'warn' ],
-      '@stylistic/array-bracket-spacing': [ 'error', 'always', { 'objectsInArrays': false, 'arraysInArrays': false }],
+      '@stylistic/array-bracket-spacing': [ 'error', 'always', {
+        objectsInArrays: false,
+        arraysInArrays: false,
+      }],
       '@stylistic/eol-last': [ 'error', 'always' ],
       '@stylistic/no-trailing-spaces': [ 'error' ],
+      '@stylistic/max-len': [ 'warn', {
+        code: 80,
+        ignoreStrings: true,
+        ignoreTemplateLiterals: true,
+      }],
+      // '@stylistic/semi-spacing': [ 'error', { before: false }],
       /* TS */
       'prefer-const': [ 'off' ],
       'no-unused-vars': [ 'off' ],
       // '@typescript-eslint/no-this-alias': [ 'off' ],
       '@typescript-eslint/no-unused-vars': [ 'warn' ],
       /* React */
-      'react/react-in-jsx-scope': [ 'off' ],
+      // 'react/react-in-jsx-scope': [ 'off' ],
     },
   },
 ];
 
-export default tsEslint.config(config);
+const tsConfig = tsEslint.config(config);
+
+export default tsConfig;

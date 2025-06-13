@@ -31,7 +31,7 @@ describe('routeUtil tests', () => {
         let pathname = validPathnames[i];
         test(`${pathname}`, () => {
           let isValidPath = routeUtil.checkPath(pathname);
-          expect(isValidPath).toEqual(true);
+          expect(isValidPath).to.not.equal(undefined);
         });
       }
     });
@@ -49,7 +49,7 @@ describe('routeUtil tests', () => {
         let pathname = invalidPathnames[i];
         test(`${pathname}`, () => {
           let isValidPath = routeUtil.checkPath(pathname);
-          expect(isValidPath).toEqual(false);
+          expect(isValidPath).to.equal(undefined);
         });
       }
     });

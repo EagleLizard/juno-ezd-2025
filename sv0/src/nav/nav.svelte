@@ -1,8 +1,7 @@
 
 <script lang="ts">
-    import { onMount } from 'svelte';
-  import { Router } from '../lib/router';
-    import { routeUtil } from '../lib/route-util';
+  import { Router } from '../lib/router/router';
+  import { routeUtil } from '../lib/router/route-util';
 
   type NavProps = {
     router: Router;
