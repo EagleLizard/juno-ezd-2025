@@ -13,7 +13,7 @@ function trimPath(pathname: string) {
   return pathname.replace(/(^\/|\/?$)/g, '');
 }
 
-function checkPath(pathname: string): string[] | undefined {
+function checkPath(pathname: string): boolean {
   /*
     Initially validated with a single regex, however, the regex seems overly
       complex if I want to add support for named path params; a path param will
@@ -31,7 +31,7 @@ function checkPath(pathname: string): string[] | undefined {
   // let slashRx = /^\/(?!\/)(.+\/?)?$/g;
   let slashRx = /^\/(?!\/)([^/\s]+\/?)*?$/g;
   if(!slashRx.test(pathname)) {
-    return undefined;
+    return false;
   }
   let pathParts = getPathParts(pathname);
   let isValidPath: boolean;
@@ -39,9 +39,9 @@ function checkPath(pathname: string): string[] | undefined {
     return checkPathPart(pathPart);
   });
   if(isValidPath) {
-    return pathParts;
+    return true;
   }
-  return undefined;
+  return false;
 }
 
 function checkPathPart(pathPart: string): boolean {
