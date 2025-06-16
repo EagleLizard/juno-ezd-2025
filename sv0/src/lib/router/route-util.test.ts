@@ -3,7 +3,7 @@ import { describe, test, expect } from 'vitest';
 import { routeUtil } from './route-util';
 
 describe('routeUtil tests', () => {
-  describe('getPathParts tests', () => {
+  describe('getPathParts()', () => {
     test('returns expected parts from valid pathname', () => {
       let pathPartsMock: string[] = [ 'path', 'to', 'resource', '123' ];
       let pathname = `/${pathPartsMock.join('/')}`;
@@ -19,8 +19,8 @@ describe('routeUtil tests', () => {
       expect(pathParts).toEqual(pathPartsMock);
     });
   });
-  describe('checkPath tests', () => {
-    describe('valid pathnames', () => {
+  describe('checkPath()', () => {
+    test('valid pathnames', () => {
       const validPathnames: string[] = [
         '/',
         '/etc',
@@ -29,13 +29,11 @@ describe('routeUtil tests', () => {
       ];
       for(let i = 0; i < validPathnames.length; ++i) {
         let pathname = validPathnames[i];
-        test(`${pathname}`, () => {
-          let isValidPath = routeUtil.checkPath(pathname);
-          expect(isValidPath).to.not.equal(undefined);
-        });
+        let isValidPath = routeUtil.checkPath(pathname);
+        expect(isValidPath, pathname).to.equal(true);
       }
     });
-    describe('invalid pathnames', () => {
+    test('invalid pathnames', () => {
       const invalidPathnames: string[] = [
         'etc',
         'etc/123',
@@ -47,10 +45,8 @@ describe('routeUtil tests', () => {
       ];
       for(let i = 0; i < invalidPathnames.length; ++i) {
         let pathname = invalidPathnames[i];
-        test(`${pathname}`, () => {
-          let isValidPath = routeUtil.checkPath(pathname);
-          expect(isValidPath).to.equal(undefined);
-        });
+        let isValidPath = routeUtil.checkPath(pathname);
+        expect(isValidPath, pathname).to.equal(false);
       }
     });
   });
