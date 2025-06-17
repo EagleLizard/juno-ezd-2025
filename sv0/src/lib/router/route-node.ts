@@ -13,19 +13,6 @@ export class RouteNode {
     this._parent = parent ?? undefined;
   }
 
-  findRouteNode(pathParts: string[]): RouteNode | undefined {
-    let pathPart = pathParts[0];
-    pathParts = pathParts.slice(1);
-    let foundChild = this.getChild(pathPart);
-    if(foundChild === undefined) {
-      return undefined;
-    }
-    if(pathParts.length < 1) {
-      return foundChild;
-    }
-    return foundChild.findRouteNode(pathParts);
-  }
-
   hasRoute(pathParts: string[]): boolean {
     let pathPart = pathParts[0];
     pathParts = pathParts.slice(1);

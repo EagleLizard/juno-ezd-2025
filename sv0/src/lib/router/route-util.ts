@@ -2,6 +2,7 @@
 export const routeUtil = {
   getPathParts,
   checkPath,
+  normalize,
 } as const;
 
 function getPathParts(pathname: string) {
@@ -10,7 +11,22 @@ function getPathParts(pathname: string) {
 
 function trimPath(pathname: string) {
   // return pathname.replace(/(^\/+|\/+$)/g, '');
+  // return pathname.replace(/(^\/|\/?$)/g, '');
   return pathname.replace(/(^\/|\/?$)/g, '');
+}
+
+/*
+  Formats a valid pathname to an expected format, e.g.:
+    /path/to/something/ -> /path/to/something
+    /path/to/something -> /path/to/something
+_*/
+function normalize(pathname: string): string {
+  let res: string;
+  if(!checkPath(pathname)) {
+    throw new Error(`Cannot normalize invalid pathname: ${pathname}`);
+  }
+  res = `/${trimPath(pathname)}`;
+  return res;
 }
 
 function checkPath(pathname: string): boolean {

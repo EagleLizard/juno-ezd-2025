@@ -64,8 +64,7 @@ export class Router {
   }
 
   onRouteChange(fn: (evt: RouteChangeEvent) => void) {
-    let deregCb = this.onRouteChangeEvtReg.register(fn);
-    return deregCb;
+    return this.onRouteChangeEvtReg.register(fn);
   }
 
   static init(params: RouterCtorParams): Router {
