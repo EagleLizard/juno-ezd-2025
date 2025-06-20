@@ -10,36 +10,37 @@
   type NavMenuItem = {
     key: string;
     label: string;
-    slug: string;
+    path: string;
   };
   const navMenuItems: NavMenuItem[] = [
     {
       key: 'home',
       label: 'home',
-      slug: '',
+      path: '',
     },
     {
       key: 'etc',
       label: 'etc',
-      slug: 'etc',
+      path: 'etc',
     },
     {
       key: 'etc_sub1',
       label: 'etc/sub1',
-      slug: 'etc/sub1',
+      path: 'etc/sub1',
     },
     {
       key: 'page',
       label: 'page',
-      slug: 'page',
+      path: 'page',
     },
     {
       key: 'about',
       label: 'about',
-      slug: 'about',
+      path: 'about',
     },
   ];
   let props: NavProps = $props();
+  // let currPath = $state<string>(props.router._pathname);
   let currPath = $state<string>(props.router._pathname);
   let basePathSlug = $state<string>();
 
@@ -61,18 +62,11 @@
   <div>
     nav
   </div>
-  <div>
-    <code>router.pathname</code>: <code>{props.router._pathname}</code>
-    <br/>
-    currPath: <code>{currPath}</code>
-    <br/>
-    slug: <code>{basePathSlug}</code>
-  </div>
   <div class="nav-items">
     {#each navMenuItems as navMenuItem (navMenuItem.key)}
       <a
-        href={`/${navMenuItem.slug}`}
-        class="nav-item-link {navMenuItem.slug === basePathSlug ? 'selected' : '' }"
+        href={`/${navMenuItem.path}`}
+        class="nav-item-link {navMenuItem.path === basePathSlug ? 'selected' : '' }"
         onclick={function ($e) {
           props.router.handleAnchorClick($e.currentTarget, $e);
         }}
@@ -83,6 +77,13 @@
         <div class="highlight-bar"></div>
       </a>
     {/each}
+  </div>
+  <div>
+    <code>router.pathname</code>: <code>{props.router._pathname}</code>
+    <br/>
+    currPath: <code>{currPath}</code>
+    <br/>
+    slug: <code>{basePathSlug}</code>
   </div>
 </div>
 

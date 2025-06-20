@@ -1,4 +1,6 @@
 
+const PATH_PARAM_PREFIX = '$';
+
 export const routeUtil = {
   getPathParts,
   checkPath,
@@ -51,6 +53,12 @@ function checkPath(pathname: string): boolean {
   }
   let pathParts = getPathParts(pathname);
   let isValidPath: boolean;
+  if(pathParts.length === 1 && pathParts[0].length < 1) {
+    /*
+      empty str is valid '/' path
+    _*/
+    return true;
+  }
   isValidPath = pathParts.every(pathPart => {
     return checkPathPart(pathPart);
   });
@@ -61,15 +69,36 @@ function checkPath(pathname: string): boolean {
 }
 
 function checkPathPart(pathPart: string): boolean {
-  let isParamIdentifier: boolean = pathPart.startsWith(':');
-  if(isParamIdentifier) {
-    /* validate param identifier */
+  let isPathParam: boolean;
+  isPathParam = checkPathParam(pathPart);
+  let validPathPart: boolean;
+  validPathPart = (
+    checkPathParam(pathPart)
+    || checkPathPartStr(pathPart)
+  );
+  return validPathPart;
+}
+
+function checkPathPartStr(pathPart: string) {
+  let pathPartRx = /^[a-zA-Z0-9-]+$/;
+  return pathPartRx.test(pathPart);
+}
+
+/*
+  valid params:
+    $name
+    $itemId
+    $some_val
+_*/
+function checkPathParam(pathPart: string): boolean {
+  let validPrefix: boolean;
+  validPrefix = pathPart.startsWith(PATH_PARAM_PREFIX);
+  if(!validPrefix) {
     return false;
-  } else {
-    /* validate url pathname part */
-    let rx = /^[a-zA-Z0-9-]*$/;
-    return rx.test(pathPart);
   }
+  let paramStr = pathPart.substring(1);
+  let rx = /^[\w]+/;
+  return rx.test(paramStr);
 }
 
 /*

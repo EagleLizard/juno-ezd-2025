@@ -50,6 +50,11 @@ describe('routeUtil tests', () => {
         expect(isValidPath, pathname).to.equal(false);
       }
     });
+    test('path params', () => {
+      let pathname = '/path/to/$aParam';
+      let res = routeUtil.checkPath(pathname);
+      expect(res, pathname).to.equal(true);
+    });
   });
   describe('normalize()', () => {
     test('normalizes valid pathnames', () => {

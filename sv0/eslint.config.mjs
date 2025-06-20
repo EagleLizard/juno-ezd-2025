@@ -54,7 +54,7 @@ const config = [
       ],
       semi: 'error',
       eqeqeq: [ 'error', 'always' ],
-      quotes: [ 'error', 'single' ],
+      // quotes: [ 'error', 'single' ],
       'no-octal': [ 'off' ],
       'no-multiple-empty-lines': [ 'error', { 'max': 1, 'maxBOF': 1 }],
       // 'no-unused-vars': [ 'warn' ],
@@ -68,6 +68,11 @@ const config = [
         code: 80,
         ignoreStrings: true,
         ignoreTemplateLiterals: true,
+        ignoreComments: true,
+      }],
+      '@stylistic/quotes': [ 'error', 'single', {
+        avoidEscape: true,
+        allowTemplateLiterals: 'avoidEscape',
       }],
       // '@stylistic/semi-spacing': [ 'error', { before: false }],
       /* TS */
