@@ -15,6 +15,7 @@
   "devDependencies": {
     "@stylistic/eslint-plugin": "^4.4.0",
     "@sveltejs/vite-plugin-svelte": "^5.0.3",
+    "@types/node": "^24.0.3",
     "@vitest/coverage-istanbul": "^3.2.2",
     "eslint": "^9.28.0",
     "eslint-plugin-svelte": "^3.9.0",
