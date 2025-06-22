@@ -65,10 +65,10 @@ const config = [
       '@stylistic/eol-last': [ 'error', 'always' ],
       '@stylistic/no-trailing-spaces': [ 'error' ],
       '@stylistic/max-len': [ 'warn', {
-        code: 80,
+        code: 100,
         ignoreStrings: true,
         ignoreTemplateLiterals: true,
-        ignoreComments: true,
+        // ignoreComments: true,
       }],
       '@stylistic/quotes': [ 'error', 'single', {
         avoidEscape: true,
