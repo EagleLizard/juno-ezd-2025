@@ -1,19 +1,61 @@
 
-import type { PathPart } from './path-util';
+import { pathUtil, type PathPart } from './path-util';
 
 const PATH_NODE_ROOT_VAL: PathPart = {
-  kind: 'pathname',
+  kind: 'literal',
   val: '/',
 };
 
 export class PathNode {
-  val: PathPart;
+  value: PathPart;
   children: PathNode[];
   _parent?: PathNode;
   constructor(val: PathPart, parent?: PathNode) {
-    this.val = val;
+    this.value = val;
     this.children = [];
     this._parent = parent;
+  }
+
+  matchPath(pathStrs: string[]): PathNode | undefined {
+    /*
+      Need backtracking in case an explored route is not a match, in which case
+        subsequent matches will be explored at the current level by precedence.
+    _*/
+    if(pathStrs.length < 1) {
+      return;
+    }
+    let currPathStr = pathStrs[0];
+    let currMatch = this._match(currPathStr);
+    if(!currMatch) {
+      return;
+    }
+    if(pathStrs.length === 1) {
+      return this;
+    }
+    let nextPathStrs = pathStrs.slice(1);
+    let childMatches: PathNode[] = [];
+    for(let i = 0; i < this.children.length; ++i) {
+      let child = this.children[i];
+      let childMatch = child.matchPath(nextPathStrs);
+      if(childMatch !== undefined) {
+        childMatches.push(childMatch);
+      }
+    }
+    return childMatches[0];
+  }
+
+  /*
+    Match rules / precedence:
+      1. pathname
+      2. param
+      3. wildcard
+  _*/
+  private _match(pathStr: string): boolean {
+    return (
+      pathUtil.literalMatch(this.value, pathStr)
+      || pathUtil.paramMatch(this.value, pathStr)
+      || pathUtil.wildcardMatch(this.value, pathStr)
+    );
   }
 
   insert(pathParts: PathPart[]): PathNode {
@@ -24,15 +66,9 @@ export class PathNode {
       let invalidParam = (
         pathPart.kind === 'param'
         || pathPart.kind === 'wildcard'
-      ) && foundChild.val.val !== pathPart.val;
+      ) && foundChild.value.val !== pathPart.val;
       if(invalidParam) {
-        throw new Error(`Attempt to insert pathPart ${
-          pathPart.val
-        } of kind '${
-          pathPart.kind
-        }' that already exists for node with val: ${
-          foundChild.val.val
-        }`);
+        throw new Error(`Attempt to insert pathPart ${pathPart.val} of kind '${pathPart.kind}' that already exists for node with val: ${foundChild.value.val}`);
       }
     }
     if(foundChild === undefined) {
@@ -45,6 +81,9 @@ export class PathNode {
       /* matched the last path part */
       return foundChild;
     }
+    /*
+    TODO: insert sorted by route priority
+    _*/
     return foundChild.insert(pathParts);
   }
 
@@ -65,11 +104,11 @@ export class PathNode {
       || pathPart.kind === 'wildcard'
     ) {
       foundChild = this.children.find((child) => {
-        return child.val.kind === pathPart.kind;
+        return child.value.kind === pathPart.kind;
       });
-    } else if(pathPart.kind === 'pathname') {
+    } else if(pathPart.kind === 'literal') {
       foundChild = this.children.find((child) => {
-        return child.val.val === pathPart.val;
+        return child.value.val === pathPart.val;
       });
     } else {
       throw new Error(`Invalid PathPart.kind: ${pathPart.kind}`);
