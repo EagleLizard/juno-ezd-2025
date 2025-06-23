@@ -2,7 +2,7 @@ import { RouterError } from '../models/errors/router-error';
 import { RouteNode } from './route-node';
 import { routeUtil } from './route-util';
 
-export class RouteTree {
+export class _RouteTree {
   _root: RouteNode;
   routeMap: Map<string, RouteNode>;
   constructor() {

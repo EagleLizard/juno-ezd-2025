@@ -1,12 +1,12 @@
 
 import { describe, test, expect, beforeEach } from 'vitest';
-import { RouteTree } from './route-tree';
+import { _RouteTree } from './_route-tree';
 
 describe('route-tree tests', () => {
-  let routeTree: RouteTree;
+  let routeTree: _RouteTree;
 
   beforeEach(() => {
-    routeTree = new RouteTree();
+    routeTree = new _RouteTree();
   });
 
   test('insert route', () => {
