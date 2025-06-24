@@ -4,7 +4,7 @@ import { describe, test, expect } from 'vitest';
 import { pathUtil, type PathPart } from './path-util';
 
 describe('path-util tests', () => {
-  describe('parsePathname()', () => {
+  describe('parsePathParts()', () => {
     const pathnameCases: [string, PathPart[]][] = [
       [ '/', [
         { kind: 'literal', val: '/' },
@@ -61,5 +61,22 @@ describe('path-util tests', () => {
         expect(pathParts).to.deep.equal(expected);
       });
     }
+  });
+  describe(`${pathUtil.normalize.name}()`, () => {
+    const testCases: [string, string][] = [
+      [ '/etc', '/etc' ],
+      [ '/etc/', '/etc' ],
+      [ '//etc', '/etc' ],
+      [ 'etc/', 'etc' ],
+    ];
+    test('normalizes paths', () => {
+      let results: string[];
+      results = [];
+      for(let i = 0; i < testCases.length; ++i) {
+        let [ pathname, expected ] = testCases[i];
+        let normal = pathUtil.normalize(pathname);
+        expect(normal).to.equal(expected);
+      }
+    });
   });
 });

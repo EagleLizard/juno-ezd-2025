@@ -12,6 +12,7 @@ export const pathUtil = {
   literalMatch,
   paramMatch,
   wildcardMatch,
+  normalize,
 } as const;
 
 export type PathPart = {
@@ -23,6 +24,12 @@ export type PathPart = {
   kind: keyof typeof path_part_kinds,
   val: string;
 };
+
+function normalize(pathname: string): string {
+  let normal: string;
+  normal = trimPathname(pathname);
+  return normal;
+}
 
 function literalMatch(pathPart: PathPart, pathStr: string): boolean {
   return pathPart.kind === 'literal' && pathPart.val === pathStr;

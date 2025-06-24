@@ -2,7 +2,7 @@
 import { describe, test, expect, beforeEach } from 'vitest';
 import { _RouteTree } from './_route-tree';
 
-describe('route-tree tests', () => {
+describe('_route-tree tests', () => {
   let routeTree: _RouteTree;
 
   beforeEach(() => {

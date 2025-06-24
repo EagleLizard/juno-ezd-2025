@@ -78,7 +78,7 @@ const config = [
       /* TS */
       'prefer-const': [ 'off' ],
       'no-unused-vars': [ 'off' ],
-      // '@typescript-eslint/no-this-alias': [ 'off' ],
+      '@typescript-eslint/no-this-alias': [ 'warn' ],
       '@typescript-eslint/no-unused-vars': [ 'warn' ],
       /* React */
       // 'react/react-in-jsx-scope': [ 'off' ],
