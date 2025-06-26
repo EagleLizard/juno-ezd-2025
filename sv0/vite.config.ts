@@ -5,7 +5,7 @@ import { svelte } from '@sveltejs/vite-plugin-svelte';
 export default defineConfig({
   plugins: [ svelte() ],
   test: {
-    // environment: 'jsdom'
+    environment: 'jsdom',
     // environment: 'happy-dom'
     include: [
       './src/**/*.test.{js,ts,svelte}',

@@ -40,7 +40,7 @@ export class RouteTree {
       A match against a pathname should return any params or wildcards
         that were matched
     _*/
-    paramMap = new Map;
+    paramMap = new Map();
     pathParts = getNodesToRoot(matchedNode).map(nodeToRoot => nodeToRoot.value);
     for(let i = 0; i < pathStrs.length; ++i) {
       let pathStr = pathStrs[i];

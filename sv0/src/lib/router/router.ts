@@ -46,7 +46,7 @@ export class Router {
     let href: string | null;
     href = el.getAttribute('href');
     $e.preventDefault(); // prevent page reload
-    if(href === null) {
+    if((typeof href) !== 'string') {
       return;
     }
     const nextState = {};
