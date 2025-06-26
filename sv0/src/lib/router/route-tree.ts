@@ -1,8 +1,8 @@
 import { PathNode } from './path-node';
-import { pathUtil } from './path-util';
+import { pathUtil, type PathPart } from './path-util';
 
 type PathMatchRes = {
-  params: string[];
+  params: Map<string, string>;
 };
 
 export class RouteTree {
@@ -28,22 +28,47 @@ export class RouteTree {
     return res;
   }
   matchPath(pathname: string): PathMatchRes | undefined {
+    let pathMatchRes: PathMatchRes;
+    let paramMap: Map<string, string>;
+    let pathParts: PathPart[];
     let pathStrs = pathUtil.getPathStrs(pathname);
     let matchedNode = this._root.matchPath(pathStrs);
-    if(!matchedNode) {
+    if(matchedNode === undefined || !this.hasNode(matchedNode)) {
       return;
     }
     /*
       A match against a pathname should return any params or wildcards
         that were matched
     _*/
-    let nodesToRoot = getNodesToRoot(matchedNode);
-    let pathParts = nodesToRoot.map(nodeToRoot => nodeToRoot.value);
-    console.log(pathParts);
-    for(let i = 0; i < pathParts.length; ++i) {
-      console.log(`${pathStrs[i]} - ${pathParts[i].val}`);
+    paramMap = new Map;
+    pathParts = getNodesToRoot(matchedNode).map(nodeToRoot => nodeToRoot.value);
+    for(let i = 0; i < pathStrs.length; ++i) {
+      let pathStr = pathStrs[i];
+      let pathPart = pathParts[i];
+      if(pathPart.kind === pathUtil.path_part_kinds.param) {
+        paramMap.set(pathPart.val, pathStr);
+      }
     }
+    pathMatchRes = {
+      params: paramMap,
+    };
+    return pathMatchRes;
   }
+  /*
+    Checks if the given PathNode is a leaf that corresponds to a registered route
+  _*/
+  private hasNode(pathNode: PathNode): boolean {
+    let valIt = this.routeMap.values();
+    let valItRes: IteratorResult<PathNode>;
+    while(!(valItRes = valIt.next()).done) {
+      let currNode = valItRes.value;
+      if(currNode.id === pathNode.id) {
+        return true;
+      }
+    }
+    return false;
+  }
+
 }
 
 function getNodesToRoot(pathNode: PathNode): PathNode[] {

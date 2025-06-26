@@ -1,7 +1,8 @@
 
+import assert from 'node:assert';
 import { describe, test, expect, beforeEach } from 'vitest';
+
 import { RouteTree } from './route-tree';
-import type { PathNode } from './path-node';
 
 describe('route-tree tests', () => {
   let routeTree: RouteTree;
@@ -12,6 +13,7 @@ describe('route-tree tests', () => {
     '/test-2',
     '/test-2/$testParam',
     '/test-2/$testParam/detail',
+    '/etc/$p1/sub-a/$p2/sub-a2',
   ];
   beforeEach(() => {
     routeTree = new RouteTree();
@@ -29,10 +31,38 @@ describe('route-tree tests', () => {
     });
   });
   describe('matchPath()', () => {
-    test('asdfjklj', () => {
-      let pathname = '/test-2/123/detail';
+    test('route with param has param match', () => {
+      let testParamVal = '123';
+      let pathname = `/test-2/${testParamVal}`;
       let res = routeTree.matchPath(pathname);
-      expect(1).to.equal(0);
+      assert(res !== undefined);
+      expect(res.params.get('$testParam')).to.equal(testParamVal);
+    });
+    test('route with param and subroute has param match', () => {
+      let testParamVal = '456';
+      let pathname = `/test-2/${testParamVal}/detail`;
+      let res = routeTree.matchPath(pathname);
+      assert(res !== undefined);
+      expect(res.params.get('$testParam')).to.equal(testParamVal);
+    });
+    test('route with multiple params matches correct params', () => {
+      let testVal1 = '222';
+      let testVal2 = '11111';
+      let pathname = `/etc/${testVal1}/sub-a/${testVal2}/sub-a2`;
+      let res = routeTree.matchPath(pathname);
+      assert(res !== undefined);
+      expect(res.params.get('$p1')).to.equal(testVal1);
+      expect(res.params.get('$p2')).to.equal(testVal2);
+    });
+    test(`pathname that isn't registered does not match`, () => {
+      let pathname = '/err/path/not-exist';
+      let res = routeTree.matchPath(pathname);
+      expect(res).toBeUndefined();
+    });
+    test('partial route with params does not match', () => {
+      let pathname = '/etc/1/sub-a';
+      let res = routeTree.matchPath(pathname);
+      expect(res).toBeUndefined();
     });
   });
 });

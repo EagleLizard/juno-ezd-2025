@@ -6,11 +6,18 @@ const PATH_NODE_ROOT_VAL: PathPart = {
   val: '/',
 };
 
+const getPathNodeId = (() => {
+  let idCounter = 0n;
+  return () => `${idCounter++}`;
+})();
+
 export class PathNode {
+  id: string;
   value: PathPart;
   children: PathNode[];
   _parent?: PathNode;
   constructor(val: PathPart, parent?: PathNode) {
+    this.id = getPathNodeId();
     this.value = val;
     this.children = [];
     this._parent = parent;
