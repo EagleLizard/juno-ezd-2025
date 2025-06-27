@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [ svelte() ],
   test: {
     environment: 'jsdom',
-    // environment: 'happy-dom'
+    // environment: 'happy-dom',
     include: [
       './src/**/*.test.{js,ts,svelte}',
     ],

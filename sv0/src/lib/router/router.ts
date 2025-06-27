@@ -6,7 +6,7 @@ type RouterCtorParams = {
   _location: Location,
 };
 
-type RouteChangeEvent = {
+export type RouteChangeEvent = {
   state: unknown;
   path: string;
   search: string;
@@ -42,14 +42,14 @@ export class Router {
     });
   }
 
-  handleAnchorClick(el: HTMLAnchorElement, $e: MouseEvent) {
+  handleAnchorClick(el: HTMLAnchorElement, $e: MouseEvent, state?: unknown) {
     let href: string | null;
     href = el.getAttribute('href');
     $e.preventDefault(); // prevent page reload
     if((typeof href) !== 'string') {
       return;
     }
-    const nextState = {};
+    const nextState = state;
     const parsedHref = new URL(href, this.location.origin);
     const nextPath = parsedHref.pathname;
     const nextSearch = parsedHref.search;
