@@ -1,14 +1,14 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import Nav from './nav/nav.svelte';
-  import { Router } from './lib/router/router';
+  import { RouteCtrl } from './lib/router/route-ctrl';
 
   type TestListItem = {
     id: string;
     label: string;
   };
 
-  const router = $state(Router.init({
+  const router = $state(RouteCtrl.init({
     _history: window.history,
     _location: window.location,
   }));
@@ -19,6 +19,7 @@
   onMount(init);
 
   function init() {
+    initializeRouter();
     for(let i = 0; i < 40; ++i) {
       pushListItem();
     }
@@ -38,6 +39,11 @@
       label: currId.toString(16)
     });
     idCounter += 1;
+  }
+
+  function initializeRouter() {
+    router.addRoute('/etc');
+    // router.addRoute('err*');
   }
 
 </script>

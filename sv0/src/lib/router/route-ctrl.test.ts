@@ -1,21 +1,21 @@
 
 import { describe, test, expect, beforeEach, vi, afterEach, afterAll, type Mock } from 'vitest';
 import { EventRegistry } from '../event-registry';
-import { Router, type RouteChangeEvent } from './router';
+import { RouteCtrl, type RouteChangeEvent } from './route-ctrl';
 import assert from 'node:assert';
 
 const originalAddEventListener = globalThis.addEventListener;
 const originalLocation = globalThis.location;
 const originalHistory = globalThis.history;
 
-describe('router tests', () => {
+describe('route-ctrl tests', () => {
   let mockAddEventListener: typeof global.addEventListener<'popstate'>;
   let mockHistory: {
     pushState: Mock<History['pushState']>;
   };
   let popStateEvtReg: EventRegistry<PopStateEvent>;
   let popStateDeregCbs: (() => void)[];
-  let router: Router;
+  let routeCtrl: RouteCtrl;
   afterAll(() => {
     globalThis.addEventListener = originalAddEventListener;
     globalThis.history = originalHistory;
@@ -38,7 +38,7 @@ describe('router tests', () => {
     globalThis.addEventListener = mockAddEventListener as typeof global.addEventListener;
     globalThis.history = mockHistory as unknown as History;
 
-    router = Router.init({
+    routeCtrl = RouteCtrl.init({
       /*
         todo: mock history and location
       _*/
@@ -82,8 +82,8 @@ describe('router tests', () => {
     test('fires onRouteChange', () => {
       let pathname = '/path/to/something';
       getAttributeMock.mockReturnValueOnce(pathname);
-      router.onRouteChange(handleRouteChangeFn);
-      router.handleAnchorClick(mockEl as HTMLAnchorElement, mockMouseEvent as MouseEvent);
+      routeCtrl.onRouteChange(handleRouteChangeFn);
+      routeCtrl.handleAnchorClick(mockEl as HTMLAnchorElement, mockMouseEvent as MouseEvent);
       expect(handleRouteChangeFn).toHaveBeenCalled();
       expect(preventDefaultMock).toHaveBeenCalled();
     });
@@ -101,11 +101,11 @@ describe('router tests', () => {
         let [ pathname, state ] = testCase;
         return [ state, '', pathname ] as const;
       });
-      router.onRouteChange(handleRouteChangeFn);
+      routeCtrl.onRouteChange(handleRouteChangeFn);
       for(let i = 0; i < testCases.length; ++i) {
         let [ pathname, state ] = testCases[i];
         getAttributeMock.mockReturnValueOnce(pathname);
-        router.handleAnchorClick(mockEl as HTMLAnchorElement, mockMouseEvent as MouseEvent, state);
+        routeCtrl.handleAnchorClick(mockEl as HTMLAnchorElement, mockMouseEvent as MouseEvent, state);
       }
       /* assertions */
       expect(handleRouteChangeFn).toHaveBeenCalledTimes(testCases.length);
@@ -123,8 +123,8 @@ describe('router tests', () => {
     });
     test('does not fire onRouteChange when href is null', () => {
       getAttributeMock.mockReturnValueOnce(null);
-      router.onRouteChange(handleRouteChangeFn);
-      router.handleAnchorClick(mockEl as HTMLAnchorElement, mockMouseEvent as MouseEvent);
+      routeCtrl.onRouteChange(handleRouteChangeFn);
+      routeCtrl.handleAnchorClick(mockEl as HTMLAnchorElement, mockMouseEvent as MouseEvent);
       expect(preventDefaultMock).toHaveBeenCalled();
       expect(handleRouteChangeFn).toHaveBeenCalledTimes(0);
     });

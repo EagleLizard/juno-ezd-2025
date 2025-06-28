@@ -1,10 +1,10 @@
 
 <script lang="ts">
-  import { Router } from '../lib/router/router';
+  import { RouteCtrl } from '../lib/router/route-ctrl';
   import { routeUtil } from '../lib/router/route-util';
 
   type NavProps = {
-    router: Router;
+    router: RouteCtrl;
   };
   // history.pushState({}, '', '/etc');
   type NavMenuItem = {
